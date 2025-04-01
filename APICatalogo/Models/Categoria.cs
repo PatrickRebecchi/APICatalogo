@@ -15,9 +15,11 @@ public class Categoria
 
     [Key]
     public int CategoriaId { get; set; }
+
     [Required(ErrorMessage = "Valor invalido")]
     [StringLength(80)]
     public string? Nome { get; set; }
+
     [Required(ErrorMessage = "Valor invalido")]
     [StringLength(300)]
     public string? ImagemUrl { get; set; }

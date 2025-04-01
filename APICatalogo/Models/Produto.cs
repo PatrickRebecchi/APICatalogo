@@ -15,7 +15,8 @@ public class Produto
     [Required(ErrorMessage = "Valor invalido")]
     [Column(TypeName = "decimal(10, 2)")]
     public decimal Preco { get; set; }
-    [Required(ErrorMessage = "Valor invalido")]
+    [Required]
+    [StringLength(300)]
     public string? ImagemUrl { get; set; }
     [Required(ErrorMessage = "Valor invalido")]
     public float Estoque { get; set; }
