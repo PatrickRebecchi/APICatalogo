@@ -11,7 +11,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 );
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(); // Serviço do Controllers para API
 
 builder.Services.AddOpenApi(); // v1.json
 
@@ -27,5 +27,5 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
-app.MapControllers();
+app.MapControllers(); // Mapeia os controllers
 app.Run();
