@@ -11,7 +11,7 @@ namespace APICatalogo.Controllers
     {
         private readonly AppDbContext _context; // Contexto do banco de dados
 
-        public ProdutosController(AppDbContext context) 
+        public ProdutosController(AppDbContext context)
         {
             _context = context;
         }
@@ -36,6 +36,30 @@ namespace APICatalogo.Controllers
             }
             // Retorna o produto encontrado
             return produto;
-        } 
+        }
+
+        [HttpPost]
+    public ActionResult Post(Produto produto)
+    {
+        if (produto is null)
+        {
+            return BadRequest();
+        }
+        _context.Produtos.Add(produto);
+        _context.SaveChanges();
+
+        return new CreatedAtRouteResult("ObterProduto",
+            new { id = produto.ProdutoId }, produto);
+    }
+        /*[HttpPost]
+        public async Task<ActionResult<Produto>> PostAsync(Produto produto)
+        {
+            // Adiciona um novo produto ao banco de dados
+            _context.Produtos.Add(produto);
+            await _context.SaveChangesAsync();
+            // Retorna o produto criado com o status 201 (Created)
+            return CreatedAtAction(nameof(GetAsync), new { id = produto.ProdutoId }, produto);
+        }*/
+        
     }
 }
