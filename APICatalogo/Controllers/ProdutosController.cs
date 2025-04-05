@@ -32,7 +32,7 @@ namespace APICatalogo.Controllers
             // Se não encontrar o produto, retorna 404
             if (produto == null)
             {
-                return NotFound();
+                return NotFound("Produto não localizado!");
             }
             // Retorna o produto encontrado
             return produto;
