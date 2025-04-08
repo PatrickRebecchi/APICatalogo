@@ -24,7 +24,7 @@ namespace APICatalogo.Controllers
             return await _context.Produtos.ToListAsync();
         }
 
-        [HttpGet("{id}")] // Define um parâmetro na rota. Exemplo: /produtos/1
+        [HttpGet("{id}", Name = "ObterProduto")] // Define um parâmetro na rota. Exemplo: /produtos/1
         public async Task<ActionResult<Produto>> GetAsync(int id)
         {
             // Busca um produto pelo ID
@@ -37,29 +37,54 @@ namespace APICatalogo.Controllers
             // Retorna o produto encontrado
             return produto;
         }
-
+   
         [HttpPost]
-    public ActionResult Post(Produto produto)
-    {
-        if (produto is null)
+        public ActionResult Post(Produto produto)
         {
-            return BadRequest();
-        }
-        _context.Produtos.Add(produto);
-        _context.SaveChanges();
+            if (produto is null)
+            {
+                return BadRequest("Produto não pode ser nulo.");
+            }
 
-        return new CreatedAtRouteResult("ObterProduto",
-            new { id = produto.ProdutoId }, produto);
-    }
-        /*[HttpPost]
-        public async Task<ActionResult<Produto>> PostAsync(Produto produto)
-        {
-            // Adiciona um novo produto ao banco de dados
+            var produtoExistente = _context.Produtos
+                .FirstOrDefault(p => p.Nome == produto.Nome);
+
+            if (produtoExistente != null)
+            {
+                // Retorna um erro 409 (Conflito) caso o produto já exista
+                return Conflict("Produto já cadastrado.");
+            }
+
+            // Adiciona o produto ao banco
             _context.Produtos.Add(produto);
-            await _context.SaveChangesAsync();
-            // Retorna o produto criado com o status 201 (Created)
-            return CreatedAtAction(nameof(GetAsync), new { id = produto.ProdutoId }, produto);
-        }*/
-        
+            _context.SaveChanges();
+
+            
+            return new CreatedAtRouteResult("ObterProduto", new { id = produto.ProdutoId }, produto);
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult AtualizarProduto(int id, Produto produto)
+        {
+            if (id != produto.ProdutoId)
+            {
+                return BadRequest("O ID do produto não corresponde ao produto fornecido.");
+            }
+
+            var produtoExistente = _context.Produtos
+                .AsNoTracking()
+                .FirstOrDefault(p => p.ProdutoId == id);
+
+            if (produtoExistente == null)
+            {
+                return NotFound("Produto não encontrado.");
+            }
+
+            _context.Entry(produto).State = EntityState.Modified;
+            _context.SaveChanges();
+            return Ok(produto);
+        }
     }
+    
+
 }

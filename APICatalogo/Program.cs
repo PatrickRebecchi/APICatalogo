@@ -12,6 +12,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 );
 
 builder.Services.AddControllers(); // Serviço do Controllers para API
+builder.Services.AddRouting(options => options.LowercaseUrls = true); // URLs minúsculas
 
 builder.Services.AddOpenApi(); // v1.json
 
