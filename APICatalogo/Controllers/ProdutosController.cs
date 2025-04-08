@@ -88,6 +88,18 @@ namespace APICatalogo.Controllers
         [HttpDelete("{id}")]
         public ActionResult DeletarProduto(int id)
         {
+            var produto = _context.Produtos.Find(id);
+            if ( id == 0)
+            {
+                return NotFound("Produto não encontrado.");
+            }
+            if (produto == null)
+            {
+                return NotFound("Produto não encontrado.");
+            }
+            _context.Produtos.Remove(produto);
+            _context.SaveChanges();
+            return Ok("Produto deletado com sucesso.");
         }
     }
 
