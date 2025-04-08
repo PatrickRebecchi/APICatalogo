@@ -37,7 +37,7 @@ namespace APICatalogo.Controllers
             // Retorna o produto encontrado
             return produto;
         }
-   
+
         [HttpPost]
         public ActionResult Post(Produto produto)
         {
@@ -59,7 +59,7 @@ namespace APICatalogo.Controllers
             _context.Produtos.Add(produto);
             _context.SaveChanges();
 
-            
+
             return new CreatedAtRouteResult("ObterProduto", new { id = produto.ProdutoId }, produto);
         }
 
@@ -84,7 +84,13 @@ namespace APICatalogo.Controllers
             _context.SaveChanges();
             return Ok(produto);
         }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeletarProduto(int id)
+        {
+        }
     }
+
     
 
 }
