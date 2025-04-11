@@ -16,6 +16,7 @@ builder.Services.AddControllers()
     .AddJsonOptions(options =>
         options.JsonSerializerOptions
             .ReferenceHandler = ReferenceHandler.IgnoreCycles); // Ignora os ciclos de referência entre as classes
+// Adiciona o JsonOptions para ignorar os ciclos de referência entre as classes
 
 builder.Services.AddControllers(); // Serviço do Controllers para API
 builder.Services.AddRouting(options => options.LowercaseUrls = true); // URLs minúsculas
