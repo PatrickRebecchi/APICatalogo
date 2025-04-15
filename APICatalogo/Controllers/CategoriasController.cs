@@ -1,5 +1,6 @@
 ﻿using APICatalogo.Data;
 using APICatalogo.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,8 +28,18 @@ public class CategoriasController : Controller
     [HttpGet]
     public ActionResult<IEnumerable<Categoria>> Get()
     {
-        var categorias = _context.Categorias.AsNoTracking().ToList();
-        return Ok(categorias);
+        try
+        {
+            //throw new DataMisalignedException();
+            return _context.Categorias.AsNoTracking().ToList();
+        }
+        catch (Exception ex)
+        {
+           //return BadRequest($"Erro ao obter categorias: {ex.Message}");
+            return StatusCode(StatusCodes.Status500InternalServerError,
+                $"Ocorreu um erro ao tratar a sua solicitação: {ex.Message}");
+        }
+        
     }
 
 
