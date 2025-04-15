@@ -17,7 +17,7 @@ public class CategoriasController : Controller
     }
 
 
-    [HttpGet("produtos")]
+    [HttpGet("todos-produtos")]
     public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos() 
     {
         return _context.Categorias.Include(p => p.Produtos).ToList(); // Include(p => p.Produtos) faz o join entre as tabelas
@@ -27,7 +27,7 @@ public class CategoriasController : Controller
     [HttpGet]
     public ActionResult<IEnumerable<Categoria>> Get()
     {
-        var categorias = _context.Categorias.ToList();
+        var categorias = _context.Categorias.AsNoTracking().ToList();
         return Ok(categorias);
     }
 

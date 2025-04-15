@@ -21,7 +21,7 @@ namespace APICatalogo.Controllers
         public async Task<IEnumerable<Produto>> GetAsync() // Retorna uma lista de produtos
         {
             // Retorna todos os produtos da tabela 'Produtos'
-            return await _context.Produtos.ToListAsync();
+            return await _context.Produtos.AsNoTracking().ToListAsync();
         }
 
         [HttpGet("{id}", Name = "ObterProduto")] // Define um parâmetro na rota. Exemplo: /produtos/1
