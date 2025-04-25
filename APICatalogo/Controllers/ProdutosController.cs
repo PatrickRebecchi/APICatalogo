@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace APICatalogo.Controllers
 {
-    [Route("[controller]")] // Define a rota base para o controller. Exemplo: /produtos
+    [Route("[controller]")] // Define a rota /produtos
     [ApiController] // Define que a classe é um controller de API
     public class ProdutosController : ControllerBase
     {
@@ -14,6 +14,26 @@ namespace APICatalogo.Controllers
         public ProdutosController(AppDbContext context)
         {
             _context = context;
+        }
+        // Endpoint GET para retornar o primeiro produto
+
+        [HttpGet("primeiro")] //rota    /produtos/primeiro
+        public ActionResult<Produto> GetPrimeiro()  
+        {
+            try
+            {
+                var produto = _context.Produtos.FirstOrDefault(); // Busca o primeiro produto
+                if (produto is null)
+                {
+                    return NotFound("Produto não encontrado.");
+                }
+                return Ok(produto); //produto encontrado
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, 
+                    $"Erro ao obter produto: {ex.Message}");
+            }
         }
 
         // Endpoint GET para retornar todos os produtos
@@ -24,13 +44,15 @@ namespace APICatalogo.Controllers
             return await _context.Produtos.AsNoTracking().ToListAsync();
         }
 
+
+
         [HttpGet("{id}", Name = "ObterProduto")] // Define um parâmetro na rota. Exemplo: /produtos/1
         public async Task<ActionResult<Produto>> GetAsync(int id)
         {
             // Busca um produto pelo ID
             var produto = await _context.Produtos.FindAsync(id);
             // Se não encontrar o produto, retorna 404
-            if (produto == null)
+            if (produto is null)
             {
                 return NotFound("Produto não localizado!");
             }
@@ -75,7 +97,7 @@ namespace APICatalogo.Controllers
                 .AsNoTracking()
                 .FirstOrDefault(p => p.ProdutoId == id);
 
-            if (produtoExistente == null)
+            if (produtoExistente is null)
             {
                 return NotFound("Produto não encontrado.");
             }
@@ -93,7 +115,7 @@ namespace APICatalogo.Controllers
             {
                 return NotFound("Produto não encontrado.");
             }
-            if (produto == null)
+            if (produto is null)
             {
                 return NotFound("Produto não encontrado.");
             }
