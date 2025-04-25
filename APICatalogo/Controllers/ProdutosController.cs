@@ -18,7 +18,7 @@ namespace APICatalogo.Controllers
         // Endpoint GET para retornar o primeiro produto
 
         [HttpGet("primeiro")] //rota    /produtos/primeiro
-        public ActionResult<Produto> GetPrimeiro()  
+        public ActionResult<Produto> GetPrimeiro()
         {
             try
             {
@@ -31,7 +31,7 @@ namespace APICatalogo.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, 
+                return StatusCode(StatusCodes.Status500InternalServerError,
                     $"Erro ao obter produto: {ex.Message}");
             }
         }
@@ -111,7 +111,7 @@ namespace APICatalogo.Controllers
         public ActionResult DeletarProduto(int id)
         {
             var produto = _context.Produtos.Find(id); // Busca o produto pelo ID
-            if ( id == 0)
+            if (id == 0)
             {
                 return NotFound("Produto não encontrado.");
             }
@@ -124,7 +124,4 @@ namespace APICatalogo.Controllers
             return Ok("Produto deletado com sucesso.");
         }
     }
-
-    
-
 }
