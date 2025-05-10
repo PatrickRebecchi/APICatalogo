@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace APICatalogo.Controllers
 {
-    [Route("[controller]")] // Define a rota /produtos
+    [Route("api/[controller]")] // Define a rota /produtos
     [ApiController] // Define que a classe é um controller de API
     public class ProdutosController : ControllerBase
     {
